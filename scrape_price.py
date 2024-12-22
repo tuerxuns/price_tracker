@@ -20,14 +20,6 @@ def fetch_price():
     # Send a GET request to fetch the page content
     response = requests.get(URL, headers=headers)
 
-    if response.status_code == 200:
-        print("Request successful!")
-        print(
-            response.text
-        )  # Print the full response to inspect if any locale or currency info is available
-    else:
-        print(f"Failed to retrieve the webpage! Status code: {response.status_code}")
-
     # Check if the request was successful (status code 200)
     if response.status_code == 200:
         print("Request successful!")
@@ -124,3 +116,4 @@ if __name__ == "__main__":
 
     # Plot the lowest prices
     plot_lowest_prices()
+# Test
