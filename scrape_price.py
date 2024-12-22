@@ -120,4 +120,3 @@ if __name__ == "__main__":
 
     # Plot the lowest prices
     plot_lowest_prices()
-# Test
