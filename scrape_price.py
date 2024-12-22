@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 from datetime import datetime
+import pytz
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 
@@ -52,7 +53,14 @@ def fetch_price():
 
 
 def store_price(price):
-    today = datetime.today().strftime("%Y-%m-%d")
+    # Define the timezone for PST (Pacific Standard Time)
+    pst = pytz.timezone("US/Pacific")
+
+    # Get the current time in PST
+    current_time_pst = datetime.now(pst)
+    today = current_time_pst.strftime("%Y-%m-%d")
+    time_of_day = current_time_pst.strftime("%H:%M:%S")  # Format the time as HH:MM:SS
+
     price = round(price, 4)  # Round price to 4 decimal places
 
     # Define the file path for the CSV file
@@ -63,9 +71,9 @@ def store_price(price):
         writer = csv.writer(csvfile)
         # Write header only if the file is new
         if os.stat(file_path).st_size == 0:
-            writer.writerow(["Date", "Price"])
-        writer.writerow([today, price])
-    print(f"Price stored for {today} (100 units): {price}")
+            writer.writerow(["Date", "Time", "Price"])
+        writer.writerow([today, time_of_day, price])
+    print(f"Price stored for {today} at {time_of_day} (100 units): {price}")
 
 
 def plot_lowest_prices():
@@ -75,9 +83,18 @@ def plot_lowest_prices():
     # Read prices from the CSV and find the lowest price for each day
     with open("prices.csv", "r") as csvfile:
         reader = csv.reader(csvfile)
+
+        # Skip the header row
+        next(reader)
+
         for row in reader:
             date = row[0]  # Date
-            price = float(row[1])  # Price
+            try:
+                # Try converting the price to a float (from the third column)
+                price = float(row[2])
+            except ValueError:
+                print(f"Invalid price data: {row[2]}")
+                continue  # Skip this row if price is invalid
 
             # If the date is already in the dictionary, update the lowest price
             if date in daily_prices:
