@@ -51,15 +51,18 @@ def fetch_price():
 
 
 def store_price(price):
-    # Get today's date
     today = datetime.today().strftime("%Y-%m-%d")
+    price = round(price, 4)  # Round price to 4 decimal places
 
-    # Round the price to 4 decimal places
-    price = round(price, 4)
+    # Define the file path for the CSV file
+    file_path = "prices.csv"  # Use relative path since we're working within the GitHub repository
 
-    # Open the CSV file and append the price with the date
-    with open("prices.csv", "a", newline="") as csvfile:
+    # Write to CSV (if the file doesn't exist, create it)
+    with open(file_path, "a", newline="") as csvfile:
         writer = csv.writer(csvfile)
+        # Write header only if the file is new
+        if os.stat(file_path).st_size == 0:
+            writer.writerow(["Date", "Price"])
         writer.writerow([today, price])
     print(f"Price stored for {today} (100 units): {price}")
 
