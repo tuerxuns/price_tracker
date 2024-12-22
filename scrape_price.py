@@ -7,11 +7,16 @@ from matplotlib.ticker import FuncFormatter
 
 
 def fetch_price():
+    # Set headers to simulate a Canadian user
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36",
+        "Accept-Language": "en-CA,en;q=0.9",  # Set to Canadian English
+    }
     # The URL of the page you want to scrape
     url = "https://www.g2g.com/offer/Early-Access-Standard---Exalted-Orb?service_id=lgc_service_1&brand_id=lgc_game_27013&fa=lgc_27013_platform%3Algc_27013_platform_31854%7Clgc_27013_tier%3Algc_27013_tier_54400&sort=lowest_price&include_offline=1"
 
     # Send a GET request to fetch the page content
-    response = requests.get(url)
+    response = requests.get(URL, headers=headers)
 
     # Check if the request was successful (status code 200)
     if response.status_code == 200:
