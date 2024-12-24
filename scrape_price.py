@@ -15,7 +15,7 @@ def fetch_price():
     URL = "https://www.g2g.com/offer/Early-Access-Standard---Exalted-Orb?service_id=lgc_service_1&brand_id=lgc_game_27013&fa=lgc_27013_platform%3Algc_27013_platform_31854%7Clgc_27013_tier%3Algc_27013_tier_54400&sort=lowest_price&include_offline=1"
 
     # Send a GET request to fetch the page content
-    response = requests.get(URL, headers=headers)
+    response = requests.get(URL)
 
     # Check if the request was successful (status code 200)
     if response.status_code == 200:
