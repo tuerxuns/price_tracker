@@ -11,13 +11,6 @@ import requests
 
 
 def fetch_price():
-    # Set headers to simulate a Canadian user
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36",
-        "Accept-Language": "en-CA,en;q=0.9",  # Request content in Canadian English
-        "Accept-Encoding": "gzip, deflate, br",  # More comprehensive encoding support
-        "Connection": "keep-alive",
-    }
     # The URL of the page you want to scrape
     URL = "https://www.g2g.com/offer/Early-Access-Standard---Exalted-Orb?service_id=lgc_service_1&brand_id=lgc_game_27013&fa=lgc_27013_platform%3Algc_27013_platform_31854%7Clgc_27013_tier%3Algc_27013_tier_54400&sort=lowest_price&include_offline=1"
 
