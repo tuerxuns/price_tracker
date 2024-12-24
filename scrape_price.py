@@ -1,11 +1,13 @@
-import os
-import requests
-from bs4 import BeautifulSoup
-import csv
 from datetime import datetime
+
+import csv
+import os
 import pytz
+
 import matplotlib.pyplot as plt
+from bs4 import BeautifulSoup
 from matplotlib.ticker import FuncFormatter
+import requests
 
 
 def fetch_price():
@@ -83,9 +85,14 @@ def store_price(price):
             data = data[1:]  # Remove the header from the data list
         else:
             writer.writerow(["Date", "Time", "Price"])  # Write a new header
-        # Write the new price data
-        writer.writerow([today, time_of_day, price])
-        # Write the rest of the data
+
+        # Add the new price data to the list
+        data.append([today, time_of_day, price])
+
+        # Sort the data by date and time (newest to oldest)
+        data.sort(key=lambda row: (row[0], row[1]), reverse=True)
+
+        # Write the sorted data
         writer.writerows(data)
 
     print(f"Price stored for {today} at {time_of_day} (100 units): {price}")
