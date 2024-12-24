@@ -66,13 +66,28 @@ def store_price(price):
     # Define the file path for the CSV file
     file_path = "prices.csv"  # Use relative path since we're working within the GitHub repository
 
-    # Write to CSV (if the file doesn't exist, create it)
-    with open(file_path, "a", newline="") as csvfile:
+    # Read existing data from the CSV
+    try:
+        with open(file_path, "r") as csvfile:
+            reader = csv.reader(csvfile)
+            data = list(reader)
+    except FileNotFoundError:
+        data = []  # If the file doesn't exist, start with an empty list
+
+    # Write to CSV
+    with open(file_path, "w", newline="") as csvfile:
         writer = csv.writer(csvfile)
-        # Write header only if the file is new
-        if os.stat(file_path).st_size == 0:
-            writer.writerow(["Date", "Time", "Price"])
+        # Write the header first
+        if data:
+            writer.writerow(data[0])  # Write the existing header
+            data = data[1:]  # Remove the header from the data list
+        else:
+            writer.writerow(["Date", "Time", "Price"])  # Write a new header
+        # Write the new price data
         writer.writerow([today, time_of_day, price])
+        # Write the rest of the data
+        writer.writerows(data)
+
     print(f"Price stored for {today} at {time_of_day} (100 units): {price}")
 
 
